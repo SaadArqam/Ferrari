@@ -135,9 +135,9 @@ export default function HomePage() {
           <div className="bg-white">
             <About />
           </div>
-          <div className="bg-blue-500">
+          {/* <div className="bg-blue-500">
             <About />
-          </div>
+          </div> */}
         </main>
       )}
     </div>
