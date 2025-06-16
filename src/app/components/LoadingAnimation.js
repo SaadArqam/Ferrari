@@ -73,11 +73,6 @@ const LoadingAnimation = ({ onComplete }) => {
       >
         {progress}%
       </div>
-
-      {/* Ferrari branding text (optional) */}
-      {/* <div className="absolute top-1/3 text-white text-4xl font-bold tracking-widest opacity-20">
-        FERRARI
-      </div> */}
     </div>
   );
 };

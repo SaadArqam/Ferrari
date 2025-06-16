@@ -32,7 +32,7 @@ const About = () => {
         className="relative w-full h-[400px] mt-16 overflow-hidden flex items-center justify-center"
       >
         <motion.h3
-          style={{ x, fontFamily: "CoignText" }}
+          style={{ x, fontFamily: "FerroRosso" }}
           className="font-coign text-[clamp(50px,_9vw,_180px)] font-bold uppercase text-black px-4 text-center whitespace-nowrap"
         >
           It&apos;s more about hard work than talent

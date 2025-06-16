@@ -7,16 +7,11 @@ const fontStyle = `
     font-weight: normal;
     font-style: normal;
   }
-  @font-face {
-    font-family: 'CoignText';
-    src: url('/fonts/FerroRosso.ttf') format('truetype'); /* Using FerroRosso for CoignText */
-    font-weight: normal;
-    font-style: normal;
-  }
 `;
 
 import { useState } from "react";
 import LoadingAnimation from "./components/LoadingAnimation";
+import ScrollPinnedTextAnimation from "./components/ScrollPinnedTextAnimation";
 import About from "./components/about";
 
 export default function HomePage() {
@@ -131,13 +126,24 @@ export default function HomePage() {
             `}</style>
           </div>
 
+          {/* Scroll-Driven Text Animation with Pinned Background */}
+          <ScrollPinnedTextAnimation
+            text="Only those who dare truly live"
+            backgroundImage="/img/ferrari.jpg"
+            overlayOpacity={0.5}
+          />
+
           {/* About Section */}
-          <div className="bg-white">
+          <div className="">
             <About />
           </div>
-          {/* <div className="bg-blue-500">
-            <About />
-          </div> */}
+          <div className="relative w-full h-screen">
+            <img
+              src="/img/ferrari.jpg"
+              alt="Ferrari"
+              className="w-full h-full object-cover"
+            />
+          </div>
         </main>
       )}
     </div>
