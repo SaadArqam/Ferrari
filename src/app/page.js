@@ -7,6 +7,12 @@ const fontStyle = `
     font-weight: normal;
     font-style: normal;
   }
+  @font-face {
+    font-family: 'CoignText';
+    src: url('/fonts/FerroRosso.ttf') format('truetype'); /* Using FerroRosso for CoignText */
+    font-weight: normal;
+    font-style: normal;
+  }
 `;
 
 import { useState } from "react";
@@ -127,6 +133,9 @@ export default function HomePage() {
 
           {/* About Section */}
           <div className="bg-white">
+            <About />
+          </div>
+          <div className="bg-blue-500">
             <About />
           </div>
         </main>

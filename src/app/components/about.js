@@ -1,6 +1,16 @@
-import React from "react";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 
-const about = () => {
+const About = () => {
+  const scrollRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: scrollRef,
+    // Animation starts when element enters from bottom, ends when it's well past the top
+    offset: ["start end", "200% start"],
+  });
+
+  const x = useTransform(scrollYProgress, [0, 1], ["200vw", "-200vw"]); // Text starts off-screen right and moves to off-screen left
+
   return (
     <div className="py-10 sm:py-16 md:py-20 px-2 sm:px-4">
       <div className="max-w-4xl mx-auto">
@@ -15,8 +25,21 @@ const about = () => {
           the oldest and most successful racing team.
         </p>
       </div>
+
+      {/* Animated Quote Section */}
+      <div
+        ref={scrollRef}
+        className="relative w-full h-[400px] mt-16 overflow-hidden flex items-center justify-center"
+      >
+        <motion.h3
+          style={{ x, fontFamily: "CoignText" }}
+          className="font-coign text-[clamp(50px,_9vw,_180px)] font-bold uppercase text-black px-4 text-center whitespace-nowrap"
+        >
+          It&apos;s more about hard work than talent
+        </motion.h3>
+      </div>
     </div>
   );
 };
 
-export default about;
+export default About;
