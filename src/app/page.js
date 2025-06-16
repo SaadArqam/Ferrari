@@ -49,19 +49,19 @@ export default function HomePage() {
           <style>{`
             @keyframes f1-slide {
               0% { transform: translateX(-100vw) translateY(-50%); opacity: 1; }
-              80% { transform: translateX(10vw) translateY(-50%); opacity: 1; }
+              70% { transform: translateX(5vw) translateY(-50%); opacity: 1; }
               100% { transform: translateX(120vw) translateY(-50%); opacity: 0; }
             }
             .animate-f1-slide {
-              animation: f1-slide 1.3s cubic-bezier(0.77,0,0.18,1) forwards;
+              animation: f1-slide 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
             }
             @keyframes f1-fade {
               0% { opacity: 1; }
-              90% { opacity: 1; }
+              85% { opacity: 1; }
               100% { opacity: 0; }
             }
             .animate-f1-fade {
-              animation: f1-fade 1.3s linear forwards;
+              animation: f1-fade 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
             }
           `}</style>
         </div>
@@ -101,6 +101,28 @@ export default function HomePage() {
                 Ferrari
               </h1>
             </div>
+            {/* Scroll Indicator */}
+            <div className="absolute left-1/2 transform -translate-x-1/2 bottom-16 flex flex-col items-center z-20">
+              <span
+                className="text-white text-lg tracking-widest font-semibold mb-2 drop-shadow-lg font-mono uppercase"
+                style={{ letterSpacing: "0.3em" }}
+              >
+                SCROLL TO EXPLORE
+              </span>
+              <span className="block w-0.5 h-10 bg-white animate-light-move rounded-full"></span>
+            </div>
+            <style>{`
+              @keyframes light-move {
+                0% { transform: translateY(0); opacity: 0.3; }
+                10% { opacity: 1; }
+                50% { transform: translateY(30px); opacity: 1; }
+                90% { opacity: 1; }
+                100% { transform: translateY(0); opacity: 0.3; }
+              }
+              .animate-light-move {
+                animation: light-move 1.6s cubic-bezier(0.4,0,0.2,1) infinite;
+              }
+            `}</style>
           </div>
 
           {/* About Section */}
