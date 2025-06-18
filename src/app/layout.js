@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import LenisScrollProvider from "./components/LenisScrollProvider";
+import KprMinimalNavbar from "./components/KprMinimalNavbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <KprMinimalNavbar />
         <LenisScrollProvider>{children}</LenisScrollProvider>
       </body>
     </html>
