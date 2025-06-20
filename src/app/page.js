@@ -14,6 +14,7 @@ import LoadingAnimation from "./components/LoadingAnimation";
 import ScrollPinnedTextAnimation from "./components/ScrollPinnedTextAnimation";
 import About from "./components/about";
 import ConstrunterChappa from "./components/ConstrunterChappa";
+import Card from "./components/card";
 
 export default function HomePage() {
   // DEBUG: Show home content by default
@@ -147,6 +148,10 @@ export default function HomePage() {
               alt="Ferrari"
               className="w-full h-full object-cover"
             />
+          </div>
+          {/* Add Card at the end of the site */}
+          <div className="flex justify-center items-center py-16">
+            <Card />
           </div>
         </main>
       )}
