@@ -13,7 +13,6 @@ import { useState } from "react";
 import LoadingAnimation from "./components/LoadingAnimation";
 import ScrollPinnedTextAnimation from "./components/ScrollPinnedTextAnimation";
 import About from "./components/about";
-import ConstrunterChappa from "./components/ConstrunterChappa";
 import Card from "./components/card";
 
 export default function HomePage() {
@@ -136,8 +135,7 @@ export default function HomePage() {
             overlayOpacity={0.5}
           />
 
-          {/* ConstrunterChappa Images Section */}
-          <ConstrunterChappa />
+
 
           {/* About Section */}
           {/* <About /> */}

@@ -85,7 +85,7 @@ export default function KprMinimalNavbar() {
       <div className="absolute bottom-0 left-0 w-full h-px bg-white opacity-30 pointer-events-none" />
 
       {/* Hamburger */}
-      <button
+      {/* <button
         className="absolute left-6 top-1/2 -translate-y-1/2 flex flex-col justify-center items-center w-8 h-8 p-0 m-0 bg-transparent border-none outline-none"
         onClick={() => setMenuOpen((v) => !v)}
         aria-label="Open Menu"
@@ -93,7 +93,7 @@ export default function KprMinimalNavbar() {
         <span className="block w-6 h-0.5 bg-white mb-1" />
         <span className="block w-6 h-0.5 bg-white mb-1" />
         <span className="block w-6 h-0.5 bg-white" />
-      </button>
+      </button> */}
 
       {/* Centered nav links */}
       <div className="flex space-x-10">
