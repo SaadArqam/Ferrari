@@ -13,8 +13,10 @@ import { useState } from "react";
 import LoadingAnimation from "./components/LoadingAnimation";
 import ScrollPinnedTextAnimation from "./components/ScrollPinnedTextAnimation";
 import About from "./components/about";
+import ConstrunterChappa from "./components/ConstrunterChappa";
 
 export default function HomePage() {
+  // DEBUG: Show home content by default
   const [showLoading, setShowLoading] = useState(true);
   const [showTransition, setShowTransition] = useState(false);
   const [showHome, setShowHome] = useState(false);
@@ -133,10 +135,12 @@ export default function HomePage() {
             overlayOpacity={0.5}
           />
 
+          {/* ConstrunterChappa Images Section */}
+          <ConstrunterChappa />
+
           {/* About Section */}
-          <div className="">
-            <About />
-          </div>
+          {/* <About /> */}
+          <div className="">{/* Other content can go here if needed */}</div>
           <div className="relative w-full h-screen">
             <img
               src="/img/ferrari.jpg"

@@ -10,7 +10,7 @@ const navLinks = [
 ];
 
 // DecryptedText animation component
-function DecryptedText({ text }) {
+function DecryptedText({ text, onHover, onUnhover }) {
   const [display, setDisplay] = useState(text);
   const [hovered, setHovered] = useState(false);
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
@@ -35,12 +35,14 @@ function DecryptedText({ text }) {
         setDisplay(text);
       }
     }, 60);
+    if (onHover) onHover();
   };
 
   const handleMouseLeave = () => {
     setHovered(false);
     setDisplay(text);
     if (interval) clearInterval(interval);
+    if (onUnhover) onUnhover();
   };
 
   return (
@@ -56,6 +58,22 @@ function DecryptedText({ text }) {
 
 export default function KprMinimalNavbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  // Shared audio ref
+  const audioRef = React.useRef(null);
+
+  // Pass play handler to DecryptedText
+  const playAudio = () => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch(() => {});
+    }
+  };
+  const stopAudio = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+  };
 
   return (
     <nav
@@ -86,11 +104,22 @@ export default function KprMinimalNavbar() {
             className="text-white text-sm tracking-widest uppercase hover:opacity-80 transition-opacity duration-150"
             style={{ fontFamily: "monospace" }}
           >
-            <DecryptedText text={link.name} />
+            <DecryptedText
+              text={link.name}
+              onHover={playAudio}
+              onUnhover={stopAudio}
+            />
           </a>
         ))}
       </div>
 
+      {/* Shared audio element */}
+      <audio
+        ref={audioRef}
+        src="/audio/FX_text_animation_loop.mp3"
+        preload="auto"
+        style={{ display: "none" }}
+      />
       {/* (Optional) Mobile menu overlay - not shown in screenshot, but can be added if needed */}
     </nav>
   );
