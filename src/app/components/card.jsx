@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./card.css";
+import PhotoGallery from "./photoGallery";
 
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 

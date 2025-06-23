@@ -14,6 +14,7 @@ import LoadingAnimation from "./components/LoadingAnimation";
 import ScrollPinnedTextAnimation from "./components/ScrollPinnedTextAnimation";
 import About from "./components/about";
 import Card from "./components/card";
+import PhotoGallery from "./components/photoGallery";
 
 export default function HomePage() {
   // DEBUG: Show home content by default
@@ -135,8 +136,6 @@ export default function HomePage() {
             overlayOpacity={0.5}
           />
 
-
-
           {/* About Section */}
           {/* <About /> */}
           <div className="">{/* Other content can go here if needed */}</div>
@@ -151,6 +150,7 @@ export default function HomePage() {
           <div className="flex justify-center items-center py-16">
             <Card />
           </div>
+          <PhotoGallery />
         </main>
       )}
     </div>
