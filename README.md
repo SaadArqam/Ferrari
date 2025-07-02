@@ -1,37 +1,124 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Ferrari F1 Interactive Gallery
+
+This is a visually rich, interactive web experience built with [Next.js](https://nextjs.org), inspired by the legacy and excitement of Ferrari F1. The project features custom animations, scroll-driven effects, and immersive media to showcase Ferrari's spirit.
+
+## Features
+
+- **Hero Section with Video:** Fullscreen looping video background with Ferrari branding.
+- **Animated Navbar:** Minimal, animated navigation with audio feedback and text decryption effect.
+- **Scroll-Driven Text Animation:** Pinned, animated text overlays with background imagery and smooth transitions.
+- **Photo Gallery:** Interactive gallery that follows mouse/touch movement, displaying Ferrari images in a dynamic, trailing effect.
+- **Custom Card Animation:** Animated "Scuderia Ferrari" card with text scrambling and audio on hover.
+- **Smooth Scrolling:** Powered by Lenis for buttery-smooth scroll experience.
+- **Responsive Design:** Works across devices and screen sizes.
+- **Custom Fonts & Styling:** Uses FerroRosso and CoignPro fonts for authentic Ferrari feel.
+
+## Project Structure
+
+```
+Ferrari/
+├── public/
+│   ├── audio/           # Audio effects for UI
+│   ├── fonts/           # Custom Ferrari and CoignPro fonts
+│   ├── img/             # Ferrari images for gallery and backgrounds
+│   ├── video/           # Hero section video
+│   └── ...              # SVGs and other assets
+├── src/
+│   └── app/
+│       ├── components/  # All React components (navbar, gallery, card, etc.)
+│       ├── globals.css  # Global and Tailwind styles
+│       ├── layout.js    # App layout and providers
+│       └── page.js      # Main page with all sections
+├── package.json         # Dependencies and scripts
+├── postcss.config.mjs   # PostCSS/Tailwind config
+├── next.config.mjs      # Next.js config
+└── README.md            # Project documentation
+```
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js (v18+ recommended)
+- npm, yarn, pnpm, or bun
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+1. **Clone the repository:**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   ```bash
+   git clone <repo-url>
+   cd Ferrari
+   ```
 
-## Learn More
+2. **Install dependencies:**
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   npm install
+   # or
+   yarn install
+   # or
+   pnpm install
+   # or
+   bun install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Run the development server:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   # or
+   pnpm dev
+   # or
+   bun dev
+   ```
 
-## Deploy on Vercel
+4. **Open your browser:**
+   Visit [http://localhost:3000](http://localhost:3000) to view the app.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Scripts
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# Ferrari
+- `dev` – Start the development server with Turbopack
+- `build` – Build for production
+- `start` – Start the production server
+- `lint` – Run ESLint
+
+## Main Components
+
+- **KprMinimalNavbar:** Animated navigation bar with audio and text effects.
+- **ScrollPinnedTextAnimation:** Scroll-driven, pinned text with background image.
+- **Card:** Animated card with text scrambling and audio on hover.
+- **PhotoGallery:** Mouse/touch-following image gallery.
+- **LenisScrollProvider:** Smooth scrolling provider.
+- **LoadingAnimation:** Custom loading animation.
+- **About:** (Optional) About section for project context.
+
+## Assets
+
+- **Images:** Located in `public/img/` (10+ Ferrari images)
+- **Fonts:** `FerroRosso.ttf` and `CoignPro-47Bold.ttf` in `public/fonts/`
+- **Audio:** UI sound effects in `public/audio/`
+- **Video:** Hero video in `public/video/`
+
+## Customization
+
+- To add/remove images, update the `public/img/` folder and the `imagesData` array in `photoGallery.jsx`.
+- To change hero video, replace `public/video/home.mp4`.
+- To update text or sections, edit `src/app/page.js` and relevant components.
+
+## Dependencies
+
+- `next`, `react`, `react-dom`
+- `@react-three/fiber`, `@react-three/drei` (for 3D/animation, if used)
+- `framer-motion` (animations)
+- `gsap` (animations)
+- `lenis` and `@studio-freight/lenis` (smooth scrolling)
+- `react-icons` (iconography)
+- `three` (3D, if used)
+- `tailwindcss` (styling)
+
+## License
+
+This project is for educational and demonstration purposes. Please check individual asset licenses before commercial use.
