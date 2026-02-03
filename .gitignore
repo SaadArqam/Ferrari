@@ -2,6 +2,10 @@
 __pycache__/
 *.pyc
 backend/venv/
+backend/cache/
+backend/notes.txt
+
+
 
 # Node
 node_modules/
