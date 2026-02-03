@@ -59,3 +59,36 @@ def get_ferrari_analytics(
             "lap_time": str(best_lap["LapTime"])
         }
     }
+
+def get_driver_lap_progress(year, circuit, driver):
+    session = fastf1.get_session(year, circuit, "R")
+    session.load()
+
+    laps = session.laps.pick_driver(driver)
+    fastest = laps.pick_fastest()
+
+    tel = fastest.get_telemetry()
+    if tel.empty:
+        raise ValueError("No telemetry available")
+
+    tel = tel.sort_values("Time")
+
+    max_dist = tel["Distance"].max()
+
+    samples = [
+        {
+            "t": float(t),
+            "progress": float(d / max_dist),
+            "speed": float(s)
+        }
+        for t, d, s in zip(
+            tel["Time"].dt.total_seconds(),
+            tel["Distance"],
+            tel["Speed"]
+        )
+    ]
+
+    return {
+        "lap_time": fastest["LapTime"].total_seconds(),
+        "samples": samples
+    }

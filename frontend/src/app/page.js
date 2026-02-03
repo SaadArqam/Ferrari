@@ -15,6 +15,7 @@ import ScrollPinnedTextAnimation from "./components/ScrollPinnedTextAnimation";
 import About from "./components/about";
 import Card from "./components/card";
 import PhotoGallery from "./components/photoGallery";
+import Analytics from "./components/Analytics";
 
 export default function HomePage() {
   // DEBUG: Show home content by default
@@ -151,6 +152,7 @@ export default function HomePage() {
             <Card />
           </div>
           <PhotoGallery />
+          <Analytics />
         </main>
       )}
     </div>

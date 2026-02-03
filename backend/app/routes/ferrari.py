@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Query
 from typing import Optional
 from app.services.fastf1_service import get_ferrari_analytics
+from app.services.fastf1_service import get_driver_lap_progress
 
 router = APIRouter(prefix="/api/ferrari", tags=["Ferrari"])
 
@@ -11,3 +12,21 @@ def ferrari_analytics(
     driver: Optional[str] = Query(None)
 ):
     return get_ferrari_analytics(year, circuit, driver)
+
+
+@router.get("/lap-telemetry")
+def lap_telemetry(
+    year: int,
+    circuit: str,
+    driver: str
+):
+    return get_driver_lap_progress(year, circuit, driver)
+
+@router.get("/lap-telemetry")
+def lap_telemetry(
+    year: int,
+    circuit: str,
+    driver: str
+):
+    return get_driver_lap_progress(year, circuit, driver)
+
