@@ -1,8 +1,13 @@
-from fastapi import APIRouter
-from app.services.fastf1_service import get_ferrari_last_race
+from fastapi import APIRouter, Query
+from typing import Optional
+from app.services.fastf1_service import get_ferrari_analytics
 
 router = APIRouter(prefix="/api/ferrari", tags=["Ferrari"])
 
-@router.get("/last-race")
-def ferrari_last_race():
-    return get_ferrari_last_race()
+@router.get("/analytics")
+def ferrari_analytics(
+    year: Optional[int] = Query(None),
+    circuit: Optional[str] = Query(None),
+    driver: Optional[str] = Query(None)
+):
+    return get_ferrari_analytics(year, circuit, driver)
