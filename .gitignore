@@ -1,7 +1,7 @@
 # Python
-backend/venv/
 __pycache__/
 *.pyc
+backend/venv/
 
 # Node
 node_modules/
