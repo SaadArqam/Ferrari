@@ -3,6 +3,21 @@
 import React, { useEffect, useRef, useState } from "react";
 import { CircuitWrapper, SvgWrapper } from "./Circuit.styles";
 
+const ABU_DHABI_PATH = `
+M160 320
+C180 220 260 160 360 160
+C460 160 540 220 560 280
+C580 340 620 380 700 400
+C820 430 860 500 820 540
+C780 580 700 560 660 520
+C620 480 560 480 520 520
+C480 560 400 560 340 520
+C260 460 260 380 300 340
+C340 300 360 260 340 220
+C300 160 220 200 160 260
+C120 300 120 340 160 320
+`;
+
 const CircuitMap = () => {
   const pathRef = useRef(null);
   const rafRef = useRef(null);
@@ -11,20 +26,14 @@ const CircuitMap = () => {
   const [ham, setHam] = useState(null);
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
-  const PLAYBACK_SPEED = 0.25; // 0.25x real speed (good default)
 
+  const PLAYBACK_SPEED = 0.2; // slower = more realistic
 
-  /* ----------------------------------
-     FETCH TELEMETRY (REAL DATA)
-  ---------------------------------- */
+  /* ---------------- FETCH TELEMETRY ---------------- */
   useEffect(() => {
     Promise.all([
-      fetch(
-        "http://localhost:8000/api/ferrari/lap-telemetry?year=2025&circuit=Abu%20Dhabi%20Grand%20Prix&driver=LEC"
-      ).then((r) => r.json()),
-      fetch(
-        "http://localhost:8000/api/ferrari/lap-telemetry?year=2025&circuit=Abu%20Dhabi%20Grand%20Prix&driver=HAM"
-      ).then((r) => r.json())
+      fetch("http://localhost:8000/api/ferrari/lap-telemetry?year=2025&circuit=Abu%20Dhabi%20Grand%20Prix&driver=LEC").then(r => r.json()),
+      fetch("http://localhost:8000/api/ferrari/lap-telemetry?year=2025&circuit=Abu%20Dhabi%20Grand%20Prix&driver=HAM").then(r => r.json())
     ]).then(([lecData, hamData]) => {
       setLec(lecData);
       setHam(hamData);
@@ -32,175 +41,96 @@ const CircuitMap = () => {
     });
   }, []);
 
-  /* ----------------------------------
-     ANIMATION LOOP
-  ---------------------------------- */
-useEffect(() => {
-  if (!playing || !lec || !ham) return;
+  /* ---------------- ANIMATION LOOP ---------------- */
+  useEffect(() => {
+    if (!playing || !lec || !ham) return;
 
-  const maxLen = Math.min(
-    lec.samples.length,
-    ham.samples.length
-  );
+    const maxLen = Math.min(lec.samples.length, ham.samples.length);
+    let last = performance.now();
 
-  let lastTime = performance.now();
+    const animate = (now) => {
+      const delta = now - last;
+      last = now;
 
-  const animate = (now) => {
-    const delta = now - lastTime;
-    lastTime = now;
+      const advance = (delta / 1000) * 60 * PLAYBACK_SPEED;
 
-    // How many samples to advance based on time
-    const samplesPerSecond = 60 * PLAYBACK_SPEED;
-    const advance = (delta / 1000) * samplesPerSecond;
-
-    setIndex((i) => {
-      const next = i + advance;
-      return next >= maxLen - 1 ? maxLen - 1 : next;
-    });
+      setIndex(i => Math.min(i + advance, maxLen - 1));
+      rafRef.current = requestAnimationFrame(animate);
+    };
 
     rafRef.current = requestAnimationFrame(animate);
-  };
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [playing, lec, ham]);
 
-  rafRef.current = requestAnimationFrame(animate);
-  return () => cancelAnimationFrame(rafRef.current);
-}, [playing, lec, ham]);
-
-
-  /* ----------------------------------
-     PATH SAMPLING
-  ---------------------------------- */
-  const getPoint = (progress) => {
+  /* ---------------- PATH SAMPLING ---------------- */
+  const getPoint = (p) => {
     if (!pathRef.current) return { x: 0, y: 0 };
-    const total = pathRef.current.getTotalLength();
-    return pathRef.current.getPointAtLength(
-      Math.max(0, Math.min(1, progress)) * total
-    );
+    const len = pathRef.current.getTotalLength();
+    return pathRef.current.getPointAtLength(p * len);
   };
 
-  /* ----------------------------------
-     RENDER CAR + LABEL (NO OVERLAP)
-  ---------------------------------- */
+  /* ---------------- CAR + LABEL ---------------- */
   const renderCar = (sample, color, label, side) => {
-    if (!sample || !pathRef.current) return null;
+    if (!sample) return null;
 
-    const p = sample.progress;
-    const pt = getPoint(p);
-    const ptAhead = getPoint(Math.min(1, p + 0.002));
+    const pt = getPoint(sample.progress);
+    const ahead = getPoint(Math.min(1, sample.progress + 0.002));
 
-    const dx = ptAhead.x - pt.x;
-    const dy = ptAhead.y - pt.y;
-    const len = Math.sqrt(dx * dx + dy * dy) || 1;
+    const dx = ahead.x - pt.x;
+    const dy = ahead.y - pt.y;
+    const mag = Math.hypot(dx, dy) || 1;
 
-    // Perpendicular normal
-    const nx = (-dy / len) * side;
-    const ny = (dx / len) * side;
+    const nx = (-dy / mag) * side;
+    const ny = (dx / mag) * side;
 
-    const LABEL_DISTANCE = 42;
-
-    const lx = pt.x + nx * LABEL_DISTANCE;
-    const ly = pt.y + ny * LABEL_DISTANCE;
-
-    const speedNorm = Math.min(sample.speed / 330, 1);
-    const r = 7 + speedNorm * 6;
+    const lx = pt.x + nx * 36;
+    const ly = pt.y + ny * 36;
 
     return (
       <g>
-        {/* CAR DOT */}
-        <circle
-          cx={pt.x}
-          cy={pt.y}
-          r={r}
-          fill={color}
-          filter={`drop-shadow(0 0 14px ${color})`}
-        />
-
-        {/* LABEL BACKGROUND */}
-        <rect
-          x={lx - 22}
-          y={ly - 14}
-          width="44"
-          height="22"
-          rx="8"
-          fill="#0c0c0c"
-          stroke={color}
-          strokeWidth="1.2"
-        />
-
-        {/* LABEL TEXT */}
-        <text
-          x={lx}
-          y={ly + 2}
-          fill={color}
-          fontSize="13"
-          fontWeight="700"
-          textAnchor="middle"
-          dominantBaseline="middle"
-        >
+        <circle cx={pt.x} cy={pt.y} r={8} fill={color} />
+        <rect x={lx - 22} y={ly - 14} width="44" height="22" rx="6" fill="#111" stroke={color} />
+        <text x={lx} y={ly + 1} fill={color} fontSize="12" fontWeight="700" textAnchor="middle">
           {label}
         </text>
       </g>
     );
   };
 
-  /* ----------------------------------
-     RENDER
-  ---------------------------------- */
+  /* ---------------- RENDER ---------------- */
   return (
     <CircuitWrapper>
       <SvgWrapper>
         <svg viewBox="0 0 1000 600">
-          {/* CIRCUIT PATH (TEMP) */}
           <path
             ref={pathRef}
-            d="
-              M100 300
-              C200 100, 400 100, 500 300
-              S800 500, 900 300
-              C800 100, 600 100, 500 300
-              S200 500, 100 300
-            "
+            d={ABU_DHABI_PATH}
             fill="none"
-            stroke="#444"
+            stroke="#555"
             strokeWidth="18"
             strokeLinecap="round"
           />
 
-          {/* CARS */}
           {lec && renderCar(lec.samples[Math.floor(index)], "#E10600", "LEC", 1)}
           {ham && renderCar(ham.samples[Math.floor(index)], "#FFD700", "HAM", -1)}
         </svg>
       </SvgWrapper>
 
-      {/* CONTROLS */}
-      <div style={{ marginTop: "1.5rem", width: "100%" }}>
-        <input
-          type="range"
-          min="0"
-          max={lec ? lec.samples.length - 1 : 0}
-          value={index}
-          onChange={(e) => {
-            setPlaying(false);
-            setIndex(Number(e.target.value));
-          }}
-          style={{ width: "100%" }}
-        />
+      <input
+        type="range"
+        min="0"
+        max={lec ? lec.samples.length - 1 : 0}
+        value={index}
+        onChange={(e) => {
+          setPlaying(false);
+          setIndex(Number(e.target.value));
+        }}
+        style={{ width: "100%", marginTop: "1rem" }}
+      />
 
-        <div style={{ marginTop: "0.75rem", textAlign: "center" }}>
-          <button
-            onClick={() => setPlaying((p) => !p)}
-            style={{
-              background: "#111",
-              color: "#fff",
-              border: "1px solid #333",
-              borderRadius: 8,
-              padding: "0.5rem 1.2rem",
-              cursor: "pointer"
-            }}
-          >
-            {playing ? "Pause" : "Play"}
-          </button>
-        </div>
-      </div>
+      <button onClick={() => setPlaying(p => !p)} style={{ marginTop: "0.75rem" }}>
+        {playing ? "Pause" : "Play"}
+      </button>
     </CircuitWrapper>
   );
 };
