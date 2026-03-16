@@ -126,5 +126,17 @@ def get_fastest_lap_telemetry(year: int, race: str, driver: str):
         'nGear': 'gear',
         'Distance': 'distance'
     })
+
+    # Explicitly cast to native Python types to avoid numpy.int64 / numpy.float64
+    # JSON-serialization errors when lru_cache returns the cached list.
+    df['time']     = df['time'].astype(float)
+    df['speed']    = df['speed'].astype(float)
+    df['throttle'] = df['throttle'].astype(float)
+    df['brake']    = df['brake'].astype(float)
+    df['gear']     = df['gear'].astype(int)
+    df['X']        = df['X'].astype(float)
+    df['Y']        = df['Y'].astype(float)
+    df['distance'] = df['distance'].astype(float)
     
     return df.to_dict('records')
+
