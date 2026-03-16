@@ -22,11 +22,4 @@ def lap_telemetry(
 ):
     return get_driver_lap_progress(year, circuit, driver)
 
-@router.get("/lap-telemetry")
-def lap_telemetry(
-    year: int,
-    circuit: str,
-    driver: str
-):
-    return get_driver_lap_progress(year, circuit, driver)
 

@@ -16,6 +16,7 @@ import About from "./components/about";
 import Card from "./components/card";
 import PhotoGallery from "./components/photoGallery";
 import Analytics from "./components/Analytics";
+import RaceSelector from "./components/RaceSelector";
 
 export default function HomePage() {
   // DEBUG: Show home content by default
@@ -153,6 +154,21 @@ export default function HomePage() {
           </div>
           <PhotoGallery />
           <Analytics />
+          
+          {/* Telemetry Race Selector */}
+          <div className="bg-zinc-950 py-20">
+            <div className="container mx-auto px-4">
+              <div className="text-center mb-12">
+                <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
+                  <span className="text-red-600">Race</span> Telemetry
+                </h2>
+                <p className="text-zinc-400 max-w-2xl mx-auto uppercase tracking-wider text-sm">
+                  Analyze fastest laps for Scuderia Ferrari drivers across recent seasons.
+                </p>
+              </div>
+              <RaceSelector />
+            </div>
+          </div>
         </main>
       )}
     </div>

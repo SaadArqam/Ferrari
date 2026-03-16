@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routes import ferrari
+from app.routes import ferrari, telemetry
 from app.core.cache import init_cache
 
 app = FastAPI()
@@ -20,6 +20,7 @@ init_cache()
 
 # Routes
 app.include_router(ferrari.router)
+app.include_router(telemetry.router)
 
 @app.get("/")
 def root():

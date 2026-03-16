@@ -2,7 +2,7 @@ import fastf1
 from typing import Optional
 from datetime import datetime
 import pandas as pd
-
+from functools import lru_cache
 
 def get_latest_race(season: int | None = None):
     season = season or datetime.now().year
@@ -92,3 +92,39 @@ def get_driver_lap_progress(year, circuit, driver):
         "lap_time": fastest["LapTime"].total_seconds(),
         "samples": samples
     }
+
+@lru_cache(maxsize=32)
+def get_fastest_lap_telemetry(year: int, race: str, driver: str):
+    session = fastf1.get_session(year, race, "R")
+    session.load(telemetry=True, laps=True, weather=False, messages=False)
+
+    laps = session.laps.pick_driver(driver)
+    if laps.empty:
+        raise ValueError(f"No laps found for driver {driver}")
+    
+    fastest = laps.pick_fastest()
+    
+    tel = fastest.get_telemetry()
+    if tel.empty:
+        raise ValueError("No telemetry available")
+        
+    tel = tel.sort_values("Time")
+    
+    # Process using pandas operations for better performance
+    df = tel[['Time', 'Speed', 'Throttle', 'Brake', 'nGear', 'X', 'Y', 'Distance']].copy()
+    
+    df['Time'] = df['Time'].dt.total_seconds()
+    df['nGear'] = df['nGear'].fillna(0).astype(int)
+    df = df.fillna(0.0)
+    
+    # Rename columns to match requested output
+    df = df.rename(columns={
+        'Time': 'time',
+        'Speed': 'speed',
+        'Throttle': 'throttle',
+        'Brake': 'brake',
+        'nGear': 'gear',
+        'Distance': 'distance'
+    })
+    
+    return df.to_dict('records')
