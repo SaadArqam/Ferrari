@@ -16,6 +16,7 @@ import About from "./components/about";
 import Card from "./components/card";
 import PhotoGallery from "./components/photoGallery";
 import Analytics from "./components/Analytics";
+import SkewedChequeredTransition from "./components/SkewedChequeredTransition";
 
 export default function HomePage() {
   // DEBUG: Show home content by default
@@ -77,7 +78,7 @@ export default function HomePage() {
         <main className="min-h-screen bg-white">
           <style>{fontStyle}</style>
           {/* Hero Section with Video */}
-          <div className="relative min-h-[60vh] h-screen">
+          <div id="hero" className="relative min-h-[60vh] h-screen">
             <div className="absolute inset-0 w-full h-full">
               <video
                 className="w-full h-full object-cover"
@@ -130,12 +131,17 @@ export default function HomePage() {
             `}</style>
           </div>
 
-          {/* Scroll-Driven Text Animation with Pinned Background */}
-          <ScrollPinnedTextAnimation
-            text="Only those who dare truly live"
-            backgroundImage="/img/ferrari.jpg"
-            overlayOpacity={0.5}
-          />
+          {/* Skewed overlay transition (mounted above hero) */}
+          <SkewedChequeredTransition />
+
+          {/* Scroll-Driven Text Animation with Pinned Background (next section) */}
+          <div id="next">
+            <ScrollPinnedTextAnimation
+              text="Only those who dare truly live"
+              backgroundImage="/img/ferrari.jpg"
+              overlayOpacity={0.5}
+            />
+          </div>
 
           {/* About Section */}
           {/* <About /> */}
@@ -153,31 +159,6 @@ export default function HomePage() {
           </div>
           <PhotoGallery />
           <Analytics />
-          
-          {/* Telemetry Race Selector */}
-          <div className="bg-zinc-950 py-20">
-            <div className="container mx-auto px-4 text-center">
-              <div className="inline-flex items-center gap-2 bg-red-600/10 border border-red-600/20 text-red-500 text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6">
-                <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-                Live Telemetry
-              </div>
-              <h2 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
-                Race <span className="text-red-600">Analyzer</span>
-              </h2>
-              <p className="text-zinc-500 max-w-xl mx-auto text-sm mb-10">
-                Explore Ferrari&apos;s fastest laps. Visualize the racing line, live telemetry, speed gradients, and replay any session corner-by-corner.
-              </p>
-              <a
-                href="/telemetry"
-                className="inline-flex items-center gap-3 bg-red-600 hover:bg-red-500 text-white font-bold py-4 px-10 rounded-2xl shadow-2xl shadow-red-600/40 hover:shadow-red-500/50 transition-all text-sm uppercase tracking-widest group"
-              >
-                Open Telemetry Dashboard
-                <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                </svg>
-              </a>
-            </div>
-          </div>
         </main>
       )}
     </div>
