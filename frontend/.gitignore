@@ -20,10 +20,15 @@
 # production
 /build
 
+backend/app/cache/
+backend/cache/
+backend/venv/
 # misc
 .DS_Store
 *.pem
 
+__pycache__/
+*.pyc
 # debug
 npm-debug.log*
 yarn-debug.log*
