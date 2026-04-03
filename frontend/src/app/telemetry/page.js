@@ -139,7 +139,7 @@ export default function TelemetryPage() {
     setTelemetry(null);
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
       const res = await fetch(
         `${apiUrl}/api/telemetry?year=${season}&race=${encodeURIComponent(race)}&driver=${encodeURIComponent(driver)}`,
         { headers: { Accept: "application/json" } }
