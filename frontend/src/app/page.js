@@ -16,6 +16,7 @@ import About from "./components/about";
 import Card from "./components/card";
 import PhotoGallery from "./components/photoGallery";
 import Analytics from "./components/Analytics";
+import InfiniteGallery from "./components/InfiniteGallery";
 import SkewedChequeredTransition from "./components/SkewedChequeredTransition";
 
 export default function HomePage() {
@@ -159,6 +160,7 @@ export default function HomePage() {
           </div>
           <PhotoGallery />
           <Analytics />
+          <InfiniteGallery />
         </main>
       )}
     </div>
